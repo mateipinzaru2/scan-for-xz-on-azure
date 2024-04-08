@@ -11,7 +11,7 @@ check_xz() {
     vm_status=$(az vm get-instance-view --name $vm --resource-group $rg --query instanceView.statuses[1] --o tsv)
 
     if [[ $vm_status != *"running"* ]]; then
-        echo "$subscription,$vm,N/A,N/A,machine is stopped" >> output_${current_date}.csv
+        echo "$subscription,$vm,N/A,N/A,machine is stopped" >> vm_scan_${current_date}.csv
         return
     fi
 
@@ -28,7 +28,7 @@ check_xz() {
     fi
 
     # Write to output file
-    echo "$subscription,$vm,$is_installed,$version," >> output_${current_date}.csv
+    echo "$subscription,$vm,$is_installed,$version," >> vm_scan_${current_date}.csv
 }
 
 # Get list of subscriptions
@@ -38,7 +38,7 @@ IFS=$'\n' subscriptions=($(az account list --query "[].name" -o tsv))
 current_date=$(date +"%Y%m%d_%H%M%S")
 
 # Initialize output file
-echo "Subscription,VM Name,Is XZ Installed,XZ Version,Comments" > output_${current_date}.csv
+echo "Subscription,VM Name,Is XZ Installed,XZ Version,Comments" > vm_scan_${current_date}.csv
 
 # Loop over all subscriptions
 for subscription in "${subscriptions[@]}"
