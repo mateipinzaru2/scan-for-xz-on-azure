@@ -28,17 +28,17 @@ check_xz() {
     fi
 
     # Write to output file
-    echo "$subscription,$vm,$is_installed,$version," >> vm_scan_${current_date}.csv
+    echo "$subscription,$vm,$is_installed,$version," >> scan_vms_for_xz_${current_date}.csv
 }
 
 # Get list of subscriptions
 IFS=$'\n' subscriptions=($(az account list --query "[].name" -o tsv))
 
 # Get current date and time
-current_date=$(date +"%Y%m%d_%H%M%S")
+current_date=$(date +"%d.%m.%Y")
 
 # Initialize output file
-echo "Subscription,VM Name,Is XZ Installed,XZ Version,Comments" > vm_scan_${current_date}.csv
+echo "Subscription,VM Name,Is XZ Installed,XZ Version,Comments" > scan_vms_for_xz_${current_date}.csv
 
 # Loop over all subscriptions
 for subscription in "${subscriptions[@]}"
